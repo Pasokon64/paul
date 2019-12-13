@@ -1,5 +1,6 @@
 const canvas = document.getElementById('gameroom');
-const render = new GraphicRenderer(canvas);
+let room = new GameRoom(canvas);
+let render = new GraphicRenderer(room);
 
 function loop() {
     render.clear();
