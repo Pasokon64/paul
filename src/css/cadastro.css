@@ -1,0 +1,37 @@
+.div_geral{
+    background-color: #eee;
+    margin: 10vh 20vw;
+    padding: 10vh 15vw;
+    display: flex;
+}
+
+.div_geral button{
+    border-radius: 5px;
+    outline: none;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.div_geral input{
+    margin: 10px 10px 10px -40px;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.img{
+    margin: 0 0 0 9vw;
+}
+
+.img img{
+    width: 150px;
+}
+
+.logo{
+    margin-left: 10vw;
+    margin-bottom: -50px;
+}
+
+.div_tamagochi{
+    display: block;
+}
