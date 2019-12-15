@@ -1,13 +1,15 @@
 const canvas = document.getElementById('gameroom');
+
 let room = new GameRoom(canvas);
 let render = new GraphicRenderer(room);
-
 let tamagotchi = new Tamagotchi(render);
 
-function loop() {
+renderScreen();
+
+function renderScreen() {
     render.clear();
     tamagotchi.draw();
-    console.log('frame');
-}
+    console.log('rendered');
 
-setInterval(loop, 15);
+    requestAnimationFrame(renderScreen);
+}
