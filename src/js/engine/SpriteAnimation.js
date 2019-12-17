@@ -1,10 +1,11 @@
 class SpriteAnimation {
 
-    constructor(render) {
-        this.render = render;
+    constructor() {
         this.frames = [];
+        this.frameDuration = 1000;
         this.playing = false;
         this.currentFrame = 0;
+        this.observes = [];
     }
 
     start() {
@@ -30,20 +31,19 @@ class SpriteAnimation {
     
                 this.currentFrame = 0;
             }
-    
-            setTimeout(this.loop.bind(this), 1000);
+
+            this.notifyAll(this.frames[this.currentFrame]);
+            setTimeout(this.loop.bind(this), this.frameDuration);
         }
     }
 
-    drawAnimation() {
-
-        this.render.drawImage(this.frames[this.currentFrame], 0, 0, 16, 16, 100, 100, 96, 96);
+    subscribe(observerFunction) {
+        this.observes.push(observerFunction);
     }
 
-    addFrame(frame) {
-
-        let image = new Image();
-        image.src = frame;
-        this.frames.push(image);
+    notifyAll(frame) {
+        this.observes.forEach(observerFunction => {
+            observerFunction(frame);
+        });
     }
 }

@@ -2,54 +2,47 @@ class Tamagotchi {
 
     animations = {
         "1": {
-            "idle": [
-                './src/sprites/stage1/0.png',
-                './src/sprites/stage1/1.png'
-            ]
-        },
-        "2": {
-            "idle": [
-                './src/sprites/stage2/0.png',
-                './src/sprites/stage2/1.png'
-            ]
-        },
-        "3": {
-            "idle": [
-                './src/sprites/stage3/0.png',
-                './src/sprites/stage3/1.png'
-            ]
+            "idle": {
+                'frameDuration': 1000,
+                'frames': [
+                    loadImage('./src/sprites/stage1/0.png'),
+                    loadImage('./src/sprites/stage1/1.png')
+                ]
+            }
         }
     };
 
-    constructor(render) {
-        this.render = render;
+    constructor() {
         this.currentStage = 1;
+        this.state = {
+            'img': loadImage('./src/sprites/stage1/0.png'),
+            'x': 0,
+            'y': 0,
+            'width': 96,
+            'height': 96
+        };
 
-        this.setAnimation();
+        this.setAnimation('idle');
     }
 
-    draw() {
-        this.currentAnimation.drawAnimation();
-    }
-
-    setAnimation(animation = 'idle') {
+    setAnimation(animationName) {
         
         const availableAnimations = this.animations[this.currentStage];
 
-        if (availableAnimations.hasOwnProperty(animation)) {
+        if (availableAnimations.hasOwnProperty(animationName)) {
             
             if (this.currentAnimation != undefined) {
                 this.currentAnimation.stop();
             }
     
-            const newAnimation = new SpriteAnimation(this.render);
-            const animationFrames = this.animations[this.currentStage][animation];
-    
-            for(const frame in animationFrames) {
-                newAnimation.addFrame(animationFrames[frame]);
-            }
-    
-            this.currentAnimation = newAnimation;
+            const animation = new SpriteAnimation();
+            const model = this.animations[this.currentStage][animationName];
+
+            animation.frames = model.frames;
+            animation.frameDuration = model.frameDuration;
+            animation.subscribe(this.updateImg.bind(this));
+
+            this.currentAnimation = animation;
             this.currentAnimation.start();
 
             console.log('Animarion changed successfully');
@@ -59,8 +52,8 @@ class Tamagotchi {
         }
     }
 
-    setStage(stage) {
-        this.currentStage = stage;
-        this.setAnimation();
+    updateImg(frame) {
+
+        this.state.img = frame;
     }
 }
